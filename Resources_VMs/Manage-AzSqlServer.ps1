@@ -55,8 +55,8 @@ $variablesPath = Join-Path -Path $PSScriptRoot -ChildPath "../CustomVariables.tx
 # Read the variables from CustomeVariables.txt
 $variables = [ordered]@{}
 Get-Content $variablesPath | Foreach-Object {
-    $temp = ($_ -split '=').Trim()
-    $variables[$temp[0]] = $temp[1]
+    $key, $value = $_.Split('=').Trim()
+    $variables[$key] = $value
     Write-Host "$($temp[0]): $($temp[1])"
 }
 

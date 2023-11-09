@@ -6,7 +6,7 @@
 
 .DESCRIPTION
     This function manages Automation Accounts by creating all the below resources in Azure using 
-    a valid authenticated Service Principle:  
+    a valid authenticated Service Principal:  
     creation of an Automation Account, Runbook, Schedule and then link/register the schedule to the Runbook.
 
 .PARAMETER variables
@@ -68,8 +68,8 @@ $variablesPath = Join-Path -Path $PSScriptRoot -ChildPath "../CustomVariables.tx
 # Read the variables from CustomeVariables.txt
 $variables = [ordered]@{}
 Get-Content $variablesPath | Foreach-Object {
-    $temp = ($_ -split '=').Trim()
-    $variables[$temp[0]] = $temp[1]
+    $key, $value = $_.Split('=').Trim()
+    $variables[$key] = $value
 }
 
 Set-MyAzAutoAccnt -variables $variables

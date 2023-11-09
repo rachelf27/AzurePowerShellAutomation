@@ -2,10 +2,10 @@
 
 <#
 .SYNOPSIS
-    A function to connect to Azure using an existing Service Principle.
+    A function to connect to Azure using an existing Service Principal.
 
 .DESCRIPTION
-    This function connects to Azure using an existing Service Principle. 
+    This function connects to Azure using an existing Service Principal. 
     It imports variables from my CustomVariables.txt TenantId, SubscriptionId, and ApplicationId for authentication.
 
 .PARAMETER variables
@@ -23,7 +23,7 @@
 .PARAMETER azpPassword
     The Password to be used.
     I am using $env:AZ_SP_PASSWORD variable to store the password in environment as it persists until I change it.
-    In Azure PowerShell set the AZ_SP_PASSWORD: $env:AZ_SP_PASSWORD= 'Your Service Principle Password'
+    In Azure PowerShell set the AZ_SP_PASSWORD: $env:AZ_SP_PASSWORD= 'Your Service Principal Password'
 #>
 
 function Get-MyAzAccountFunc {
@@ -34,8 +34,8 @@ function Get-MyAzAccountFunc {
         # Read the variables from CustomeVariables.txt
         $variables = [ordered]@{}
         Get-Content $variablesPath | Foreach-Object {
-            $temp = ($_ -split '=').Trim()
-            $variables[$temp[0]] = $temp[1]
+            $key, $value = $_.Split('=').Trim()
+            $variables[$key] = $value
         }
 
         # Convert Password and Create Credential Object

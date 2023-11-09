@@ -5,7 +5,7 @@
     Functions to create an Azure Automation Account, Runbook, and a Schedule.
 
 .DESCRIPTION
-    This scripts has functions that does the following in Azure using a valid authenticated Service Principle:  
+    This scripts has functions that does the following in Azure using a valid authenticated Service Principal:  
     create an Automation Account, Runbook, Schedule and then link/register the schedule to the Runbook.
 
 .PARAMETER variables
@@ -27,8 +27,8 @@ $variablesPath = Join-Path -Path $PSScriptRoot -ChildPath "../CustomVariables.tx
 # Read the variables from CustomeVariables.txt
 $variables = [ordered]@{}
 Get-Content $variablesPath | Foreach-Object {
-    $temp = ($_ -split '=').Trim()
-    $variables[$temp[0]] = $temp[1]
+    $key, $value = $_.Split('=').Trim()
+    $variables[$key] = $value
     Write-Host "$($temp[0]): $($temp[1])"
 }
 

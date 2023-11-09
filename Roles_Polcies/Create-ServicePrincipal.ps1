@@ -1,11 +1,11 @@
-# Create-ServicePrinciple.ps1
+# Create-ServicePrincipal.ps1
 
 <#
 .SYNOPSIS
-    A function to create a new Azure Service Principle.
+    A function to create a new Azure Service Principal.
 
 .DESCRIPTION
-    This function creates a new Service Principle using a privileged Application authentication
+    This function creates a new Service Principal using a privileged Application authentication
     https://learn.microsoft.com/en-us/powershell/azure/create-azure-service-principal-azureps?view=azps-10.3.0#code-try-0
 
 .PARAMETER variables
@@ -19,7 +19,7 @@
 $modulePathAzConnect = Join-Path -Path $PSScriptRoot -ChildPath "../Connect/Check-MyAzAcntConnect.psm1"
 Import-Module $modulePathAzConnect -Verbose
 
-function New-MyAzServicePrinciple {
+function New-MyAzServicePrincipal {
     [CmdletBinding()]
     param(
         [Parameter(Mandatory = $true)]
@@ -30,13 +30,11 @@ function New-MyAzServicePrinciple {
     Get-MyAzAccountFunc
     
     try {
-        # Extract the variables from the hash table 
-        $servicePrincipleName = "$($variables['servicePrincipleName'])$(Get-Date -Format 'yyMMddHHmm')"
+        # Extract the Service Principal name from the hash table and append with timestamp
+        $servicePrincipalName = "$($variables['servicePrincipalName'])$(Get-Date -Format 'yyMMddHHmm')"
         
-        # Create the Service Principal
-        $sp = New-AzADServicePrincipal -DisplayName $servicePrincipleName
-
-        # Get the Password Credential from the newly created Service Principal
+        # Create the service principal and capture the password
+        $sp = New-AzADServicePrincipal -DisplayName $servicePrincipalName
         $spPassword = $sp.PasswordCredentials.SecretText
         return $spPassword
     }
@@ -52,9 +50,9 @@ $variablesPath = Join-Path -Path $PSScriptRoot -ChildPath "../CustomVariables.tx
 # Read the variables from CustomeVariables.txt
 $variables = [ordered]@{}
 Get-Content $variablesPath | Foreach-Object {
-    $temp = ($_ -split '=').Trim()
-    $variables[$temp[0]] = $temp[1]
+    $key, $value = $_.Split('=').Trim()
+    $variables[$key] = $value
 }
 
-New-MyAzServicePrinciple -variables $variables
+New-MyAzServicePrincipal -variables $variables
 

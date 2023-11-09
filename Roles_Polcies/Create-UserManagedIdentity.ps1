@@ -30,6 +30,7 @@ function New-MyAzUserManagedIdentity() {
     # Extract the variables from the hash table 
     $location = $variables["location"]
     $resourceGroupName = $variables["resourceGroupName"]
+    Dynamic naming for the managed identity with a timestamp suffix.
     $userManagedIdentityName = $variables["userManagedIdentityName"] + (Get-Date -Format 'yyyyMMddHHmmss')
 
     # Create a User Managed Identity
@@ -42,8 +43,8 @@ $variablesPath = Join-Path -Path $PSScriptRoot -ChildPath "../CustomVariables.tx
 # Read the variables from CustomeVariables.txt
 $variables = [ordered]@{}
 Get-Content $variablesPath | Foreach-Object {
-    $temp = ($_ -split '=').Trim()
-    $variables[$temp[0]] = $temp[1]
+    $key, $value = $_.Split('=').Trim()
+    $variables[$key] = $value
 }
 
 New-MyAzUserManagedIdentity -variables $variables

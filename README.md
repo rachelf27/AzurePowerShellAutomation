@@ -56,7 +56,7 @@ To use this project, follow these steps:
 ## *Note*:
 Azure AD is now Microsoft Entra ID. https://learn.microsoft.com/en-us/azure/active-directory/fundamentals/compare  
 To view your Applications/Service Principals, select Microsoft Entra ID->Application Registrations->All Applications.   
-If you run into "Insufficient privileges to complete the operation" (especially when creating new Service Principles or authentication), check your Applications API Permission and add necessary Application Read Write permissions and Grant Admin consent.
+If you run into "Insufficient privileges to complete the operation" (especially when creating new Service Principals or authentication), check your Applications API Permission and add necessary Application Read Write permissions and Grant Admin consent.
 
 If the above approach does not resolve the insufficient privileges issue, install and import the Microsoft Graph modules as shown below:   
 ```
@@ -67,8 +67,8 @@ Import-Module -Name Microsoft.Graph.Authentication, Microsoft.Graph.Users, Micro
 Connect-MgGraph
 ```
 If the modules were installed correctly the below commands should work without errors.   
-- The below command creates a new Service Principle and display the secret (*secure data*) on the terminal.  
-`$sp = New-AzADServicePrincipal -DisplayName MyServicePrincipalName`
+- The below command creates a new Service Principal and display the secret (*secure data*) on the terminal.  
+`$sp = New-AzADServicePrincipal -DisplayName MyServicePrincipalName`  
 `$sp.PasswordCredentials.SecretText`
 
 
@@ -80,4 +80,4 @@ The project is organized into directories based on different Azure automation ta
 - KeyVaults: Scripts for managing Azure Key Vaults.
 - Networking: Scripts related to Azure Networking (WIP).
 - Resources_VMs: Scripts for creating, managing Azure resources and Virtual Machines.
-- Roles_Policies: Scripts for creating/managing Service Principles, Managed Identities, and Azure Roles and Policies.
+- Roles_Policies: Scripts for creating/managing Service Principals, Managed Identities, and Azure Roles and Policies.

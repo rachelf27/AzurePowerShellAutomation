@@ -1,0 +1,45 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {},
+    "functions": [],
+    "variables": {
+        "appName": "LonelyCatWebApp",
+        "appServicePlanName": "appServicePlan1"
+    },
+    "resources": [
+        {
+            "name": "[variables('appServicePlanName')]",
+            "type": "Microsoft.Web/serverfarms",
+            "apiVersion": "2022-09-01",
+            "location": "[resourceGroup().location]",
+            "sku": {
+                "name": "F1",
+                "capacity": 1
+            },
+            "properties": {
+                "name": "[variables('appServicePlanName')]"
+            }
+        },
+        {
+            "name": "[variables('appName')]",
+            "type": "Microsoft.Web/sites",
+            "apiVersion": "2022-09-01",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/serverfarms', variables('appServicePlanName'))]"
+            ],
+            "properties": {
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('appServicePlanName'))]"
+            },
+            "resources": []
+        }
+
+    ],
+    "outputs": {
+        "webAppUrl": {
+            "type": "string",
+            "value": "[concat('https://', variables('appName'), '.azurewebsites.net')]"
+        }
+    }
+}
